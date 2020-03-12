@@ -3,6 +3,7 @@ package com.sparkapp.myFirstSparkApp.bootstrap;
 
 import com.sparkapp.myFirstSparkApp.models.BookStoreEntity;
 import com.sparkapp.myFirstSparkApp.services.BookStoreService;
+import lombok.experimental.var;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -14,6 +15,8 @@ import scala.Tuple2;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import static java.util.Arrays.*;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -45,7 +48,7 @@ public class DataLoader implements CommandLineRunner {
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
 
         JavaRDD<String> lines = ctx.textFile("example.txt", 1);
-        JavaRDD<String> words = lines.flatMap(s -> Arrays.asList(SPACE.split(s)));
+        JavaRDD<String> words = lines.flatMap(s -> Arrays.asList(SPACE.split(s)).iterator());
         JavaPairRDD<String, Integer> ones = words.mapToPair(word -> new Tuple2<>(word, 1));
         JavaPairRDD<String, Integer> counts = ones.reduceByKey((Integer i1, Integer i2) -> i1 + i2);
 
