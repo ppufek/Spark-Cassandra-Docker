@@ -1,0 +1,12 @@
+version: '2'
+services:
+  cassandra:
+    image: cassandra:3.11.3
+    ports:
+    - "9042:9042"
+    - "9160:9160"
+    - "7199:7199"
+  mybookstore:
+    image: my-first-spark-app
+    ports:
+    - "2181:2181"
